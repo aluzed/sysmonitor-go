@@ -19,6 +19,12 @@ PREFIX=/opt/sysmonitor ./install.sh   # another destination
 ./uninstall.sh                        # remove the binary
 ```
 
+If you already have a Go toolchain, one line is enough:
+
+```sh
+go install github.com/aluzed/sysmonitor-go/cmd/sysmonitor@latest
+```
+
 Then:
 
 ```
@@ -127,12 +133,15 @@ display.
 
 | File | Role |
 |------|------|
-| `collect.go`   | Reads `/proc` and `/sys`, computes deltas. |
-| `render.go`    | 24-bit colour, bars, braille graphs, ANSI-aware string measurement. |
-| `cooler.go`    | Procedural rendering of the CPU cooler. |
-| `main.go`      | Layout, display loop, terminal handling. |
-| `install.sh`   | Build and install, no privileges. |
-| `uninstall.sh` | Remove the binary. |
+| `cmd/sysmonitor/collect.go` | Reads `/proc` and `/sys`, computes deltas. |
+| `cmd/sysmonitor/render.go`  | 24-bit colour, bars, braille graphs, ANSI-aware string measurement. |
+| `cmd/sysmonitor/cooler.go`  | Procedural rendering of the CPU cooler. |
+| `cmd/sysmonitor/main.go`    | Layout, display loop, terminal handling. |
+| `install.sh`                | Build and install, no privileges. |
+| `uninstall.sh`              | Remove the binary. |
+
+The sources live under `cmd/sysmonitor/` rather than at the repository root so
+that `go install` produces a binary named `sysmonitor`, not `sysmonitor-go`.
 
 To modify the program, read [DEVELOPMENT.md](DEVELOPMENT.md): architecture,
 panel height contracts, ANSI rendering pitfalls, kernel source subtleties and
@@ -145,7 +154,7 @@ MIT — see [LICENSE](LICENSE). Do whatever you want with it.
 ## Building by hand
 
 ```sh
-go build -o sysmonitor .
+go build -o sysmonitor ./cmd/sysmonitor
 ```
 
 That is all: no dependencies, so no `go mod download`. `install.sh` merely adds

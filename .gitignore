@@ -3,6 +3,7 @@
 # directory of the same name elsewhere is not excluded by accident.
 /sysmonitor
 /sysmonitor-*
+/cmd/sysmonitor/sysmonitor
 /dist/
 /build/
 

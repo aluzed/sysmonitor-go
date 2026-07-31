@@ -20,7 +20,7 @@ Go may not be on the `PATH`. On the development machine it lives in
 `~/.local/go`, installed without privileges:
 
 ```sh
-PATH=$HOME/.local/go/bin:$PATH go build -o sysmonitor .
+PATH=$HOME/.local/go/bin:$PATH go build -o sysmonitor ./cmd/sysmonitor
 ```
 
 `install.sh` handles this on its own, and downloads Go when it is missing.
@@ -49,6 +49,11 @@ One-way flow, with no shared state beyond the `Collector` and the history rings:
 /proc, /sys ──> Collector.Collect() ──> Snapshot ──> compose() ──> []string ──> tty
                 (deltas, rates)         (immutable)   (layout)      (diffed)
 ```
+
+All four sources live in `cmd/sysmonitor/`; the repository root holds only
+`go.mod`, the scripts and the docs. That layout exists for one reason: it makes
+`go install .../cmd/sysmonitor@latest` produce a binary called `sysmonitor`
+instead of `sysmonitor-go`.
 
 | File | Role |
 |---|---|

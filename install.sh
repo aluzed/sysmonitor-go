@@ -71,7 +71,8 @@ VERSION=$(git -C "$SRC" describe --tags --always --dirty 2>/dev/null || echo dev
 
 say "building ($VERSION)"
 cd "$SRC"
-"$GO" build -trimpath -ldflags "-s -w -X main.version=$VERSION" -o "$SRC/$NAME" .
+"$GO" build -trimpath -ldflags "-s -w -X main.version=$VERSION" \
+    -o "$SRC/$NAME" ./cmd/"$NAME"
 
 # --- 3. install -------------------------------------------------------------
 
