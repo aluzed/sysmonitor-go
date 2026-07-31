@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"syscall"
@@ -194,7 +195,7 @@ func coolerContent(s Snapshot, inner, fanH int, phase float64) []string {
 
 	out := renderCooler(inner, fanH, phase, heat, spin)
 
-	// "SPEED  " (7) + jauge (gw+2) + espace + valeur (10) = gw + 20
+	// "SPEED  " (7) + gauge (gw+2) + space + value (10) = gw + 20
 	gw := inner - 20
 	if gw < 5 {
 		gw = 5
@@ -707,6 +708,21 @@ func compose(s Snapshot, h *history, w, ht int, phase float64, paused bool) []st
 //	go build -ldflags "-X main.version=1.2.3"
 var version = "dev"
 
+// buildVersion falls back to the module version the toolchain embeds, so a
+// binary produced by `go install module/cmd/x@v1.2.3` still reports v1.2.3
+// even though no ldflags were passed.
+func buildVersion() string {
+	if version != "dev" {
+		return version
+	}
+	if bi, ok := debug.ReadBuildInfo(); ok {
+		if v := bi.Main.Version; v != "" && v != "(devel)" {
+			return v
+		}
+	}
+	return version
+}
+
 func main() {
 	once := flag.Bool("once", false, "render a single frame and exit")
 	fw := flag.Int("w", 0, "force width, in columns")
@@ -716,7 +732,7 @@ func main() {
 	flag.Parse()
 
 	if *showVer {
-		fmt.Printf("sysmonitor-go %s\n", version)
+		fmt.Printf("sysmonitor-go %s\n", buildVersion())
 		return
 	}
 

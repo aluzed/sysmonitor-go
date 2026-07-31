@@ -160,3 +160,7 @@ go build -o sysmonitor ./cmd/sysmonitor
 That is all: no dependencies, so no `go mod download`. `install.sh` merely adds
 `-trimpath -ldflags "-s -w -X main.version=…"`, which takes the binary from
 3.2 MB down to 2.2 MB and stamps in the version from `git describe`.
+
+Binaries produced by `go install` carry no such stamp, so `-version` reads the
+module version back from the build info the toolchain embeds. Either way the
+command reports something meaningful.
