@@ -1,0 +1,32 @@
+# ─── built binaries ──────────────────────────────────────────────────
+# The leading slash anchors these to the repository root, so a future
+# directory of the same name elsewhere is not excluded by accident.
+/sysmonitor
+/sysmonitor-*
+/dist/
+/build/
+
+# Go artefacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.test
+*.out
+/vendor/
+go.work
+go.work.sum
+
+# coverage and profiling
+*.prof
+coverage.*
+
+# editors and operating systems
+*~
+*.swp
+.DS_Store
+.idea/
+.vscode/
