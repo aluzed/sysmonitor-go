@@ -1,5 +1,7 @@
 # sysmonitor-go
 
+![sysmonitor-go](screenshot.webp)
+
 A terminal system dashboard for Linux. Written in Go with **no external
 dependencies** — everything is read straight from `/proc` and `/sys`.
 
